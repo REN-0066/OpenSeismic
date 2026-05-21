@@ -5,7 +5,7 @@ import math
 import plotly.graph_objects as go
 from typing import Tuple
 from ui.components import ui_back_button, ui_card, ui_button_grid, nav_to, ui_file_download_card
-import config.registry as registry
+# import config.registry as registry
 
 # ==========================================
 # 核心数学计算引擎 (Pure Math Model)
@@ -227,6 +227,8 @@ class SeismicMath:
 # 视图层 (View Controllers)
 # ==========================================
 def view_gb50011_menu() -> None:
+    import config.registry as registry  # 新增：把引入挪到函数里面！
+    
     if st.button("← 返回首页"): 
         nav_to('HOME')
     st.markdown('<div class="hero-title" style="font-size: 2rem; margin-top: 1rem;">GB/T 50011-2010 (2024 版) 计算模块</div>', unsafe_allow_html=True)
