@@ -78,13 +78,26 @@ def view_home() -> None:
     # ==========================================
     # 统计面板 (Data Dashboard) - 全球完整版
     # ==========================================
-    # 临时调试探针
-    if "UPSTASH_REDIS_REST_URL" not in st.secrets:
-        st.error("🚨 调试信息：Streamlit 云端没有读取到 Secrets 配置！")
-    else:
-        st.success("✅ 调试信息：已读取到 Secrets，可能是网络请求或数据库端报错。")
-    
-    stats = init_community_stats()
+    # ==========================================
+    # 终极网络调试探针（查完错后可删除）
+    # ==========================================
+    if "UPSTASH_REDIS_REST_URL" in st.secrets:
+        try:
+            raw_url = st.secrets["UPSTASH_REDIS_REST_URL"]
+            safe_url = raw_url.rstrip('/') # 自动砍掉网址结尾多余的斜杠
+            headers = {"Authorization": f"Bearer {st.secrets['UPSTASH_REDIS_REST_TOKEN']}"}
+            
+            st.info(f"正在尝试连接数据库... 目标网址: {safe_url}")
+            test_res = requests.get(f"{safe_url}/get/visits", headers=headers)
+            
+            if test_res.status_code == 200:
+                st.success(f"🎉 数据库连接完全成功！返回数据: {test_res.text}")
+            else:
+                st.error(f"🚨 数据库连接失败！状态码: {test_res.status_code}")
+                st.error(f"数据库给出的具体拒绝理由: {test_res.text}")
+        except Exception as e:
+            st.error(f"💥 网络请求崩溃，详细错误: {str(e)}")
+    # ==========================================
     
     # 页面首次加载时，触发云端递增访问量
     if 'has_visited' not in st.session_state:
