@@ -78,6 +78,12 @@ def view_home() -> None:
     # ==========================================
     # 统计面板 (Data Dashboard) - 全球完整版
     # ==========================================
+    # 临时调试探针
+    if "UPSTASH_REDIS_REST_URL" not in st.secrets:
+        st.error("🚨 调试信息：Streamlit 云端没有读取到 Secrets 配置！")
+    else:
+        st.success("✅ 调试信息：已读取到 Secrets，可能是网络请求或数据库端报错。")
+    
     stats = init_community_stats()
     
     # 页面首次加载时，触发云端递增访问量
