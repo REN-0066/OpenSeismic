@@ -3,7 +3,6 @@ import os
 from typing import List, Dict, Any
 
 def setup_page_config() -> None:
-    """初始化站点全局元数据"""
     st.set_page_config(
         page_title="OpenSeismic | 地震工程交流共享", 
         layout="centered", 
@@ -11,12 +10,10 @@ def setup_page_config() -> None:
     )
 
 def init_session_state() -> None:
-    """初始化全局基础状态机机"""
     if 'current_page' not in st.session_state: 
         st.session_state.current_page = 'HOME'
 
 def inject_custom_css() -> None:
-    """注入符合现代结构设计院审美的工业风UI样式表"""
     st.markdown("""
     <style>
         .stApp { background-color: #F8FAFC; font-family: 'Inter', "PingFang SC", "Microsoft YaHei", sans-serif; }
@@ -29,33 +26,26 @@ def inject_custom_css() -> None:
         button[kind="secondary"]:hover { background: #3b82f6; color: #ffffff; transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2); }
         h3.chapter-title { border-left: 4px solid #1e3a8a; padding-left: 12px; margin-top: 2.5rem; margin-bottom: 1.2rem; color: #0f172a; font-weight: 800; font-size: 1.2rem; }
         .stNumberInput > div > div > input { border-radius: 6px; border: 1px solid #cbd5e1; }
-    
-        /* 限制最大宽度并居中显示 (已修正语法并放入 style 标签内) */
         .block-container {
             max-width: 55% !important; 
             padding-top: 4rem;
             padding-bottom: 2rem;
         }
-
     </style>
     """, unsafe_allow_html=True)    
 
 def nav_to(page_id: str) -> None:
-    """状态机路由跳转指令"""
     st.session_state.current_page = page_id
     st.rerun()
 
 def ui_back_button(target: str, label: str = "← 返回上级目录") -> None:
-    """公共面包屑导航返回键"""
     if st.button(label): 
         nav_to(target)
 
 def ui_card(): 
-    """基础内容现代卡片容器"""
     return st.container(border=True)
 
 def ui_button_grid(menu_items: List[Dict[str, Any]], cols_per_row: int = 3) -> None:
-    """自动折行排版的网格菜单引擎"""
     for i in range(0, len(menu_items), cols_per_row):
         cols = st.columns(cols_per_row)
         for col, item in zip(cols, menu_items[i : i + cols_per_row]):
@@ -66,15 +56,12 @@ def ui_button_grid(menu_items: List[Dict[str, Any]], cols_per_row: int = 3) -> N
                         nav_to(item["id"])
 
 def ui_card_container() -> None:
-    """流式卡片外壳包裹"""
     st.markdown("""<div style="background-color: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); margin-bottom: 20px; border: 1px solid #e2e8f0;">""", unsafe_allow_html=True)
 
 def ui_card_end() -> None:
-    """流式卡片闭合标记"""
     st.markdown("</div>", unsafe_allow_html=True)
 
 def ui_file_download_card(title: str, file_path: str, description: str = "") -> None:
-    """规范、文档专用的工程下载卡片组件"""
     ui_card_container()
     if not os.path.exists(file_path):
         st.error(f"❌ **物理文件缺失**：未能检测到服务器路径文件 `{file_path}`")
