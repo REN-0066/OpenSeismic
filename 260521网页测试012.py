@@ -14,7 +14,8 @@ def get_redis_headers():
     return {"Authorization": f"Bearer {st.secrets['UPSTASH_REDIS_REST_TOKEN']}"}
 
 def get_redis_url():
-    return st.secrets["UPSTASH_REDIS_REST_URL"]
+    # .rstrip('/') 的作用是无论你填写的 URL 结尾有没有斜杠，它都会处理成标准的格式
+    return st.secrets["UPSTASH_REDIS_REST_URL"].rstrip('/')
 
 def init_community_stats():
     """初始化或加载全站统计数据（从云端获取）"""
