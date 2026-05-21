@@ -156,3 +156,12 @@ def view_home() -> None:
         st.plotly_chart(fig, width="stretch", config={'displayModeBar': False})
 
     st.markdown("<p style='text-align: center; color: #94a3b8; font-size: 13px; margin-top: 2rem;'>Python & Streamlit | 致力于地震工程数字化</p>", unsafe_allow_html=True)
+
+# ==========================================
+# 页面初始化与执行逻辑
+# ==========================================
+if __name__ == "__main__":
+    setup_page_config()
+    init_session_state()
+    inject_custom_css()
+    view_home()
