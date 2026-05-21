@@ -99,7 +99,7 @@ def view_home() -> None:
         except Exception as e:
             st.error(f"💥 网络请求崩溃，详细错误: {str(e)}")
     # ==========================================
-    
+    stats = init_community_stats()
     # 页面首次加载时，触发云端递增访问量
     if 'has_visited' not in st.session_state:
         new_visits = increment_stat("visits")
