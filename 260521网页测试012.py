@@ -164,4 +164,18 @@ if __name__ == "__main__":
     setup_page_config()
     init_session_state()
     inject_custom_css()
-    view_home()
+    
+    # 核心修改：动态路由分发器 (Router)
+    current = st.session_state.current_page
+    
+    if current == 'HOME':
+        # 如果状态是 HOME，则渲染主页
+        view_home()
+    elif current in registry.PAGE_ROUTES:
+        # 如果状态在注册表里，就从字典里取出对应的渲染函数并执行 ()
+        registry.PAGE_ROUTES[current]()
+    else:
+        # 异常兜底
+        st.error("⚠️ 页面走丢了...")
+        if st.button("返回首页"):
+            nav_to('HOME')
